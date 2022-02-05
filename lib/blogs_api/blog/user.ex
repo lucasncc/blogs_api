@@ -21,5 +21,15 @@ defmodule BlogsApi.Blog.User do
     |> validate_length(:password, min: 6, message: "\"password\" length must be 6 characters long")
     |> validate_format(:email,~r/@/, message: "\"email\" must be a valid email")
     |> update_change(:email, &String.downcase(&1))
+    |> encrypt_password()
   end
+
+  defp encrypt_password(user) do
+    with password <- fetch_field!(user, :password) do
+      # encrypted_password = Bcrypt.Base.hash_password(password, Bcrypt.Base.gen_salt(12, true))
+      %{password_hash: encrypted_password} = Bcrypt.add_hash(password)
+      put_change(user, :password, encrypted_password)
+    end
+  end
+
 end

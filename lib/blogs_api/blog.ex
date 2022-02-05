@@ -51,7 +51,22 @@ defmodule BlogsApi.Blog do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user_email!(email), do: Repo.get_by!(User, email: email)
+  def get_user_by_email(email) do
+    query = from u in User, where: u.email == ^email
+
+    case Repo.one(query) do
+      nil -> {:error, :not_found}
+      user -> {:ok, user}
+    end
+  end
+
+  @doc """
+  Validate encrypted password.
+
+  """
+  def validate_password(password, encrypted_password) do
+    Bcrypt.verify_pass(password, encrypted_password)
+  end
 
   @doc """
   Authenticate user by entering email and email.
@@ -67,32 +82,14 @@ defmodule BlogsApi.Blog do
       ** (Ecto.NoResultsError)
 
   """
-  #def validate_password(password, encrypted_password) do
-
-  #end
-
-  @doc """
-  Authenticate user by entering email and email.
-
-  Raises `Ecto.NoResultsError` if the User does not exist.
-
-  ## Examples
-
-      iex> get_user_email!(david@domain.com)
-      %User{}
-
-      iex> get_user!(amanda@domain.com)
-      ** (Ecto.NoResultsError)
-
-  """
-  #def login(email, password) do
-  #  with {:ok, user} <- get_user_email!(email) do
-  #    case validate_password(password, user.password) do
-  #      false -> {:error, :unauthorized}
-  #      true -> {:ok, user}
-  #    end
-  #  end
-  #end
+  def authenticate_user(email, password) do
+    with {:ok, user} <- get_user_by_email(email) do
+      case validate_password(password, user.password) do
+        false -> {:error, :unauthorized}
+        true -> {:ok, user}
+      end
+    end
+  end
 
   @doc """
   Creates a user.

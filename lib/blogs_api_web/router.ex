@@ -5,6 +5,10 @@ defmodule BlogsApiWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug BlogsApi.Guardian.AuthPipeline
+  end
+
   scope "/api", BlogsApiWeb do
     pipe_through :api
 
@@ -12,6 +16,15 @@ defmodule BlogsApiWeb.Router do
 
     resources "/posts", PostController, except: [:new, :edit]
 
+    post "/login", SessionController, :new
+
+  end
+
+  scope "/api", BlogsApiWeb do
+    pipe_through [:api, :auth]
+
+    post "/login/refresh", SessionController, :refresh
+    post "/login/delete", SessionController, :delete
   end
 
   # Enables LiveDashboard only for development
