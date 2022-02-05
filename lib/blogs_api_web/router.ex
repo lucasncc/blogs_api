@@ -12,9 +12,9 @@ defmodule BlogsApiWeb.Router do
   scope "/api", BlogsApiWeb do
     pipe_through :api
 
-    resources "/users", UserController, except: [:new, :edit]
+    resources "/user", UserController, except: [:new, :edit]
 
-    resources "/posts", PostController, except: [:new, :edit]
+    resources "/post", PostController, except: [:new, :edit]
 
     post "/login", SessionController, :new
 
