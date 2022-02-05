@@ -27,7 +27,8 @@ defmodule BlogsApi.BlogTest do
       assert user.displayName == "some displayName"
       assert user.email == "some email"
       assert user.image == "some image"
-      assert user.password == "some password"
+      assert Bcrypt.verify_pass("some password", user.password) == true
+      #assert user.password == "some password"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -42,13 +43,15 @@ defmodule BlogsApi.BlogTest do
       assert user.displayName == "some updated displayName"
       assert user.email == "some updated email"
       assert user.image == "some updated image"
-      assert user.password == "some updated password"
+      assert Bcrypt.verify_pass("some updated password", user.password) == true
+      #assert user.password == "some updated password"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
       user = user_fixture()
       assert {:error, %Ecto.Changeset{}} = Blog.update_user(user, @invalid_attrs)
-      assert user == Blog.get_user!(user.id)
+      assert user == Blog.get_user!(user.id) |> Blog.update_change(:password, Bcrypt.add_hash(password))
+      #assert user == Blog.get_user!(user.id)
     end
 
     test "delete_user/1 deletes the user" do

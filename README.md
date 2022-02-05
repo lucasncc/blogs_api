@@ -38,9 +38,26 @@ Alternatively, API Server can also be started in tandem with the Elixir interpre
 ```
 iex -S mix phx.server
 ```
+
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser to access the API.
 
+# Optional Steps
+
+You can populate the database by running the following seed generating commands:
+```
+mix run priv/repo/seeds.exs
+```
+
+Run individual tests and documentation examples using the following command:
+```
+mix test
+```
+
 # Available API routes
+
+All routes except "Create new user" and "Authenticate user" need a valid Bearer token authorization in the request's HTTP header.
+
+"Delete user by id", "Update user by id" exist but are not routed, so users are only allowed to remove themselves by "Delete user by HTTP header token"
 
 | HTTP Request | Route | Description |
 |----------|:-------------:|------:|
@@ -50,6 +67,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser to
 | PATCH | /api/user/:id | Update user by id |
 | PUT | /api/user/:id | Update user by id |
 | DELETE | /api/user/:id | Delete user by id |
+| DELETE | /api/user/me | Delete user by <br />HTTP header token |
 | GET | /api/post | Get posts |
 | GET | /api/post/:id | Get post by id |
 | POST | /api/post/ | Create new post |

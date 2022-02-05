@@ -12,7 +12,8 @@ defmodule BlogsApiWeb.Router do
   scope "/api", BlogsApiWeb do
     pipe_through :api
 
-    resources "/user", UserController, except: [:new, :edit]
+    # resources "/user", UserController, except: [:new, :edit]
+    resources "/user", UserController, only: [:create]
 
     resources "/post", PostController, except: [:new, :edit]
 
@@ -25,6 +26,11 @@ defmodule BlogsApiWeb.Router do
 
     post "/login/refresh", SessionController, :refresh
     post "/login/delete", SessionController, :delete
+
+    resources "/user", UserController, except: [:new, :edit, :create, :delete]
+
+    delete "/user/me", UserController, :delete_me
+
   end
 
   # Enables LiveDashboard only for development

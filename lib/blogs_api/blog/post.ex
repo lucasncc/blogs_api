@@ -7,6 +7,8 @@ defmodule BlogsApi.Blog.Post do
     field :title, :string
     field :userId, :id
 
+    belongs_to :user, Blog.User
+
     timestamps()
   end
 

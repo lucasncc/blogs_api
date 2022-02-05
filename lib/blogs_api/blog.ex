@@ -18,7 +18,9 @@ defmodule BlogsApi.Blog do
 
   """
   def list_users do
-    Repo.all(User)
+    query = from u in User, select: %{id: u.id, displayName: u.displayName, email: u.email, image: u.image}
+    Repo.all(query)
+    # Repo.all(User)
   end
 
   @doc """
@@ -86,6 +88,8 @@ defmodule BlogsApi.Blog do
     with {:ok, user} <- get_user_by_email(email) do
       case validate_password(password, user.password) do
         false -> {:error, :unauthorized}
+        false when email=="" -> {:error, :no_email}
+        false when password=="" -> {:error, :no_password}
         true -> {:ok, user}
       end
     end

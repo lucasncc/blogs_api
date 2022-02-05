@@ -17,7 +17,7 @@ defmodule BlogsApiWeb.SessionController do
 
         conn
         |> put_resp_cookie("ruid", refresh_token)
-        |> put_status(:created)
+        |> put_status(:ok)
         |> render("token.json", access_token: access_token)
 
       {:error, :unauthorized} ->
@@ -25,6 +25,18 @@ defmodule BlogsApiWeb.SessionController do
 
         conn
         |> send_resp(401, body)
+
+      {:error, :no_email} ->
+        body = Jason.encode!(%{error: "email is not allowed to be empty"})
+
+        conn
+        |> send_resp(400, body)
+
+      {:error, :no_password} ->
+        body = Jason.encode!(%{error: "password is not allowed to be empty"})
+
+        conn
+        |> send_resp(400, body)
     end
   end
 
