@@ -12,11 +12,12 @@ defmodule BlogsApiWeb.Router do
   scope "/api", BlogsApiWeb do
     pipe_through :api
 
+    get "/post/search/:searchTerm", PostController, :list_search
+
     # resources "/user", UserController, except: [:new, :edit]
     resources "/user", UserController, only: [:create]
 
     resources "/post", PostController, only: [:show, :index]
-    #get "/post/search?q=:searchTerm", PostController, :show_post_term
 
     post "/login", SessionController, :new
 

@@ -183,6 +183,19 @@ defmodule BlogsApi.Blog do
     #Repo.all(Post)
   end
 
+  def list_posts_search(term) do
+    like = "%#{term}%"
+
+    query = from p in Post,
+    where: like(p.title, ^like) or like(p.content, ^like),
+    join: u in User,
+    on: [id: p.user_id],
+    select: %{id: p.id, inserted_at: p.inserted_at, updated_at: p.updated_at, title: p.title, content: p.content,
+      user_id: p.user_id, user_displayName: u.displayName, user_email: u.email, user_image: u.image}
+
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single post.
 

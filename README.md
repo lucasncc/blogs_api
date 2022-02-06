@@ -67,6 +67,7 @@ All routes except "Create new user" and "Authenticate user" need a valid Bearer 
 | DELETE | /api/user/me | Delete user by <br />HTTP header token |
 | GET | /api/post | List posts |
 | GET | /api/post/:id | Get post by id |
+| GET | /api/post/search/:term | Get post containing term |
 | POST | /api/post/ | Create new post |
 | PATCH | /api/post/:id | Update post by id |
 | PUT | /api/post/:id | Update post by id |
