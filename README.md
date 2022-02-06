@@ -6,6 +6,7 @@
 
 * [First Steps](#first-steps)
 * [Available API routes](#available-api-routes)
+* [Sample API requests](#sample-api-requests)
 
 
 # First Steps
