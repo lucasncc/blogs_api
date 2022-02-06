@@ -61,14 +61,11 @@ All routes except "Create new user" and "Authenticate user" need a valid Bearer 
 
 | HTTP Request | Route | Description |
 |----------|:-------------:|------:|
-| GET | /api/user | Get users |
+| GET | /api/user | List users |
 | GET | /api/user/:id | Get user by id |
 | POST | /api/user/ | Create new user |
-| PATCH | /api/user/:id | Update user by id |
-| PUT | /api/user/:id | Update user by id |
-| DELETE | /api/user/:id | Delete user by id |
 | DELETE | /api/user/me | Delete user by <br />HTTP header token |
-| GET | /api/post | Get posts |
+| GET | /api/post | List posts |
 | GET | /api/post/:id | Get post by id |
 | POST | /api/post/ | Create new post |
 | PATCH | /api/post/:id | Update post by id |

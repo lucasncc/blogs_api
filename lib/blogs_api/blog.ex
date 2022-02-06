@@ -197,8 +197,9 @@ defmodule BlogsApi.Blog do
       ** (Ecto.NoResultsError)
 
   """
-  #def get_post!(id), do: Repo.get!(Post, id)
-  def get_post!(id) do
+  def get_post!(id), do: Repo.get!(Post, id)
+
+  def get_post_and_user!(id) do
     query = from p in Post,
       where: p.id == ^id,
       join: u in User,

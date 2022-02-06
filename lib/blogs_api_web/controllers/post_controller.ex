@@ -32,17 +32,34 @@ defmodule BlogsApiWeb.PostController do
   end
 
   def show(conn, %{"id" => id}) do
-    with {:ok, post} <- Blog.get_post!(id) do
+    with {:ok, post} <- Blog.get_post_and_user!(id) do
       render(conn, "show.json", post: post)
     end
   end
 
   def update(conn, %{"id" => id, "post" => post_params}) do
+    #user = Guardian.Plug.current_resource(conn)
     post = Blog.get_post!(id)
 
+    #with {:ok, %Post{} = post} <- Blog.update_post(post, post_params) do
+    #  new_post = Blog.get_post_and_user!(id)
+    #  render(conn, "show.json", post: new_post)
+    #end
+
     with {:ok, %Post{} = post} <- Blog.update_post(post, post_params) do
-      render(conn, "show.json", post: post)
+      with {:ok, new_post} <- Blog.get_post_and_user!(id) do
+        render(conn, "show.json", post: new_post)
+      end
     end
+
+    #case user.id == post.user_id do
+    #  false -> {:error, :unauthorized}
+    #  true ->
+    #    with {:ok, %Post{} = post} <- Blog.update_post(post, post_params) do
+    #      new_post = Blog.get_post_and_user!(id)
+    #      render(conn, "show.json", post: new_post)
+    #    end
+    #end
   end
 
   def delete(conn, %{"id" => id}) do
@@ -53,7 +70,7 @@ defmodule BlogsApiWeb.PostController do
     end
   end
 
-  def show_post_term() do
-
-  end
+  #def show_post_term() do
+#
+ # end
 end

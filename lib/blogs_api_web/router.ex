@@ -28,7 +28,7 @@ defmodule BlogsApiWeb.Router do
     post "/login/refresh", SessionController, :refresh
     post "/login/delete", SessionController, :delete
 
-    resources "/user", UserController, except: [:new, :edit, :create, :delete]
+    resources "/user", UserController, except: [:new, :edit, :create, :delete, :update]
 
     resources "/post", PostController, except: [:new, :edit, :show, :index]
 
