@@ -64,6 +64,7 @@ All routes except "Create new user" and "Authenticate user" need a valid Bearer 
 | GET | /api/user | List users |
 | GET | /api/user/:id | Get user by id |
 | POST | /api/user/ | Create new user |
+| DELETE | /api/user/:id | Delete user by id |
 | DELETE | /api/user/me | Delete user by <br />HTTP header token |
 | GET | /api/post | List posts |
 | GET | /api/post/:id | Get post by id |
@@ -75,6 +76,96 @@ All routes except "Create new user" and "Authenticate user" need a valid Bearer 
 | POST | /api/login | Authenticate user by <br />email and password, <br />generate temporary <br />access token |
 | POST | /api/login/refresh | Refresh access token |
 | POST | /api/login/delete | Delete access token |
+
+# Sample API requests
+
+## User Requests
+
+### Create new user
+
+Send **POST** request to http://localhost:4000/api/user containing the following JSON body:
+```
+{
+    "displayName": "Sergio Mendez",
+    "email": "sergio@email.com",
+    "password": "123456",
+    "image": "http://4.bp.blogspot.com/_YA50adQ-7vQ/S1gfR_6ufpI/AAAAAAAAAAk/1ErJGgRWZDg/S45/brett.png"
+}
+```
+
+### Authenticate user
+
+Send **POST** request to http://localhost:4000/api/login containing the following JSON body:
+```
+{
+    "email": "vivan.myers@example.com",
+    "password": "platinum123"
+}
+```
+
+### List users
+
+Send **GET** request to http://localhost:4000/api/user containing a valid Bearer token in the header.
+
+### List user by ID
+
+Send **GET** request to http://localhost:4000/api/user/:id replacing :id with the user ID number. The request must have a valid Bearer token in the header.
+
+### Delete User by active access Token (Delete_me)
+
+Send **DELETE** request to http://localhost:4000/api/user/me containing a valid Bearer token in the header.
+
+### Delete user by ID
+
+Send **DELETE** request to http://localhost:4000/api/user/:id replacing :id with the user ID number. The request must have a valid Bearer token in the header.
+
+## Post Requests
+
+### Create new post
+
+Send **POST** request to http://localhost:4000/api/post containing a valid Bearer token in the header and the following JSON body:
+```
+{
+  "title": "Latest updates, August 1st",
+  "content": "The whole text for the blog post goes here in this key"
+}
+``` 
+
+### List posts
+
+Send **GET** request to http://localhost:4000/api/posts.
+
+### List post by ID
+
+Send **GET** request to http://localhost:4000/api/posts/:id replacing :id with the post ID number.
+
+### Update new post
+
+Send **PUT** request to http://localhost:4000/api/post/:id containing a valid Bearer token in the header, replacing :id with the post ID number and the following JSON body:
+```
+{"post": 
+    {
+    "title": "Latest updates, August 5st",
+    "content": "The whole text for the blog post goes here in this key"
+    }
+}
+``` 
+
+### Update new post
+
+Send **GET** request to http://localhost:4000/api/post/search/:term containing a valid Bearer token in the header and replacing :term with the term to be searched in the posts contents.
+```
+{"post": 
+    {
+    "title": "Latest updates, August 5st",
+    "content": "The whole text for the blog post goes here in this key"
+    }
+}
+``` 
+
+### Delete post by ID
+
+Send **DELETE** request to http://localhost:4000/api/post/:id containing a valid Bearer token in the header and replacing :id with the id number of the post to be deleted.
 
 
 Feel free to message me about suggestions and future improvements!
