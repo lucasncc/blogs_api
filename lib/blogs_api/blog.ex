@@ -172,7 +172,21 @@ defmodule BlogsApi.Blog do
 
   """
   def list_posts do
-    Repo.all(Post)
+    #query = from p in Post, select: %{id: p.id, published: p.inserted_at, updated: p.updated_at, title: p.title, content: p.content, user: p.user_id}
+    #query =
+    #  from p in Post, select:
+    #    %{id: p.id, published: p.inserted_at, updated: p.updated_at, title: p.title, content: p.content,
+    #      user: (from u in User, where: p.user_id == u.id)}
+
+    query = from p in Post,
+      join: u in User,
+      on: [id: p.user_id],
+      select: %{id: p.id, inserted_at: p.inserted_at, updated_at: p.updated_at, title: p.title, content: p.content,
+        user_id: p.user_id, user_displayName: u.displayName, user_email: u.email, user_image: u.image}
+
+    Repo.all(query)
+
+    #Repo.all(Post)
   end
 
   @doc """

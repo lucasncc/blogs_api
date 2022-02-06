@@ -13,8 +13,16 @@ defmodule BlogsApiWeb.PostView do
   def render("post.json", %{post: post}) do
     %{
       id: post.id,
+      published: post.inserted_at,
+      updated: post.updated_at,
       title: post.title,
-      content: post.content
+      content: post.content,
+      user: %{
+        id: post.user_id,
+        displayName: post.user_displayName,
+        email: post.user_email,
+        image: post.user_image
+      }
     }
   end
 end
