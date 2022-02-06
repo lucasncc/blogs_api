@@ -32,8 +32,9 @@ defmodule BlogsApiWeb.PostController do
   end
 
   def show(conn, %{"id" => id}) do
-    post = Blog.get_post!(id)
-    render(conn, "show.json", post: post)
+    with {:ok, post} <- Blog.get_post!(id) do
+      render(conn, "show.json", post: post)
+    end
   end
 
   def update(conn, %{"id" => id, "post" => post_params}) do

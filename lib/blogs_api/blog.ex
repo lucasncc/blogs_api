@@ -172,12 +172,6 @@ defmodule BlogsApi.Blog do
 
   """
   def list_posts do
-    #query = from p in Post, select: %{id: p.id, published: p.inserted_at, updated: p.updated_at, title: p.title, content: p.content, user: p.user_id}
-    #query =
-    #  from p in Post, select:
-    #    %{id: p.id, published: p.inserted_at, updated: p.updated_at, title: p.title, content: p.content,
-    #      user: (from u in User, where: p.user_id == u.id)}
-
     query = from p in Post,
       join: u in User,
       on: [id: p.user_id],
@@ -203,7 +197,23 @@ defmodule BlogsApi.Blog do
       ** (Ecto.NoResultsError)
 
   """
-  def get_post!(id), do: Repo.get!(Post, id)
+  #def get_post!(id), do: Repo.get!(Post, id)
+  def get_post!(id) do
+    query = from p in Post,
+      where: p.id == ^id,
+      join: u in User,
+      on: [id: p.user_id],
+      select: %{id: p.id, inserted_at: p.inserted_at, updated_at: p.updated_at, title: p.title, content: p.content,
+        user_id: p.user_id, user_displayName: u.displayName, user_email: u.email, user_image: u.image}
+
+    case Repo.one(query) do
+      nil -> {:error, :not_found}
+      post -> {:ok, post}
+    end
+
+  end
+
+
 
   @doc """
   Creates a post.
