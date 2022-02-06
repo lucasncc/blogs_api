@@ -15,7 +15,8 @@ defmodule BlogsApiWeb.Router do
     # resources "/user", UserController, except: [:new, :edit]
     resources "/user", UserController, only: [:create]
 
-    resources "/post", PostController, except: [:new, :edit]
+    resources "/post", PostController, only: [:show, :index]
+    #get "/post/search?q=:searchTerm", PostController, :show_post_term
 
     post "/login", SessionController, :new
 
@@ -28,6 +29,8 @@ defmodule BlogsApiWeb.Router do
     post "/login/delete", SessionController, :delete
 
     resources "/user", UserController, except: [:new, :edit, :create, :delete]
+
+    resources "/post", PostController, except: [:new, :edit, :show, :index]
 
     delete "/user/me", UserController, :delete_me
 

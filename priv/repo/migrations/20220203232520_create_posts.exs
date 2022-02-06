@@ -5,11 +5,11 @@ defmodule BlogsApi.Repo.Migrations.CreatePosts do
     create table(:posts) do
       add :title, :string
       add :content, :text
-      add :userId, references(:users, on_delete: :nothing)
+      add :user_id, references(:users, on_delete: :delete_all), null: false
 
       timestamps()
     end
 
-    create index(:posts, [:userId])
+    create index(:posts, [:user_id])
   end
 end

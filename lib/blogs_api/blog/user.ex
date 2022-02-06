@@ -8,7 +8,7 @@ defmodule BlogsApi.Blog.User do
     field :image, :string
     field :password, :string
 
-    has_many :posts, Blog.Post
+    #has_many :post, Blog.Post
 
     timestamps()
   end

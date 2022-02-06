@@ -203,9 +203,10 @@ defmodule BlogsApi.Blog do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_post(attrs \\ %{}) do
+  def create_post(attrs \\ %{}, user_id) do
+    update_attrs = Map.put(attrs, "user_id", user_id)
     %Post{}
-    |> Post.changeset(attrs)
+    |> Post.changeset(update_attrs)
     |> Repo.insert()
   end
 

@@ -5,9 +5,9 @@ defmodule BlogsApi.Blog.Post do
   schema "posts" do
     field :content, :string
     field :title, :string
-    field :userId, :id
+    field :user_id, :id
 
-    belongs_to :user, Blog.User
+    #belongs_to :user, Blog.User
 
     timestamps()
   end
@@ -15,7 +15,8 @@ defmodule BlogsApi.Blog.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:title, :content])
-    |> validate_required([:title, :content])
+    |> cast(attrs, [:title, :content, :user_id])
+    |> validate_required([:title, :content, :user_id])
+    #|> foreign_key_constraint(:user_id)
   end
 end

@@ -1,4 +1,4 @@
-defmodule BlogsApi.Guardian.AuthHandler do
+defmodule BlogsApi.Guardian.AuthErrorHandler do
   import Plug.Conn
 
   @behaviour Guardian.Plug.ErrorHandler
@@ -10,7 +10,7 @@ defmodule BlogsApi.Guardian.AuthHandler do
 
     conn
     |> put_resp_content_type("application/json")
-    |> send_resp(400, body)
+    |> send_resp(401, body)
   end
 
 end
